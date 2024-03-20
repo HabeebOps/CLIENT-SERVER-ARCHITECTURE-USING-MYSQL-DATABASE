@@ -13,9 +13,7 @@
 
 Before diving into the implementation, let's understand the core concept of client-server architecture:
 
-
-![Client-Server-architecture](images/Client-server-model.svg.png)
-
+![Client-Server-architecture](Images/client%20server%20achitecture.png)
 
 
 _**Clients**_ are typically user workstations or personal devices that initiate requests for resources or services from a server. They have a user interface that allows users to interact with the application and display the information received from the server.
@@ -149,17 +147,17 @@ exit
 
 ### Step 5 - Configure MySQL server for Remote Access
 
-- Open the MySQL configuration file using a text editor:
+Open the MySQL configuration file using a text editor:
 
 ```
-sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
 
-- Find the line that starts with bind-address and change its value to 0.0.0.0 to listen on all interfaces:
+Find the line that starts with bind-address and change its value to 0.0.0.0 to listen on all interfaces:
 
-![bind-address](images/bind-address.png)
+![bind address](Images/Bind%20address.png)
 
--  Restart the MySQL service for the changes to take effect:
+Restart the MySQL service for the changes to take effect:
 
 ```
 sudo systemctl  restart mysql
@@ -173,7 +171,7 @@ sudo systemctl  restart mysql
 mysql -u username -h <MySQL-server-private-ip-address> -p
 ```
 
-![connected from client](images/successful-connection-from-client.png)
+![connected from client](Images/successful-connection-from-client-to-server%20db.png)
 
 ### Important Security Considerations:
 
