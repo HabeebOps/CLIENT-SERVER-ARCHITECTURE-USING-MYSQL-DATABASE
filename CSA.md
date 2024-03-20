@@ -38,37 +38,35 @@ _**Servers**_ are powerful computers that  host, manage, and deliver the resourc
 ### Step 1 - Set Up AWS EC2 instance and Configure the Security group
 
 Create two security groups:
-    1. MySQL-client-sg: This group will only allow inbound SSH traffic on port 22.
-    
-    ![MySQL-client-sg](images/MySQL-client-sg.png)
+1. MySQL-client-sg: This group will only allow inbound SSH traffic on port 22. 
 
-    2. MySQL-server-sg: This security group will allow inbound SSH traffic on port 22 and MySQL traffic on port 3306 (only from the client machine's Private IP address to restrict database access). 
+![MySQL-client-sg](Images/MySQL-client-sg.png)
 
-    ![MySQL-server-sg](images/MySQL-server-sg.png)
+2. MySQL-server-sg: This security group will allow inbound SSH traffic on port 22 and MySQL traffic on port 3306 (only from the client machine's Private IP address to restrict database access). 
 
-- Launch two seperate instances one for MySQL server (db-server) the other for MySQL-client (client-machine). Choose Red Hat distribution as the operating system. 
+![MySQL-server-sg](Images/MySQL-server-sg.png)
 
-![Instances](images/instances-launched.png)
+Launch two seperate instances one for MySQL server (database-server) the other for MySQL-client (client-machine). Choose Ubuntu distribution as the operating system. Associate the respective security groups (MySQL-client-sg and MySQL-server-sg) with each corresponding EC2 instance.
 
-- Associate the respective security groups (MySQL-client-sg and MySQL-server-sg) with each corresponding EC2 instance.
+![Instances launch](Images/Instances%20launch.png)
 
-- Launch and connect to both EC2 instances.  
+Launch and connect to both EC2 instances.  
 
 ### Step 2 - Install MySQL Server software on the mysql-server EC2 instance
 
-- Update package repository:
+Update package repository:
 
 ```
 sudo apt update -y
 ```
 
-- Install MySQL Server
+Install MySQL Server
 
 ```
 sudo apt install mysql-server -y
 ```
 
-- Start the MySQL service and enable it to start automatically at boot with : 
+Start the MySQL service and enable it to start automatically at boot with : 
 
 ```
 sudo systemctl start mysql
@@ -76,23 +74,23 @@ sudo systemctl start mysql
 sudo systemctl enable mysql
 ```
 
-- Verify the status of Mysql service:
+Verify the status of Mysql service:
 
 ```
 sudo systemctl status mysql
 ```
 
-![MySQL-status](images/Mysql-status.png)
+![MySQL-server-status](Images/Mysql-server-status.png)
 
 ### Step 3 - Install MySQL Client Software on the MySQL-client EC2 Instance
 
-- Update package repository:
+Update package repository:
 
 ```
 sudo apt update -y
 ```
 
-- Install MySQL Client 
+Install MySQL Client 
 
 ```
 sudo apt install mysql-client -y
@@ -100,43 +98,54 @@ sudo apt install mysql-client -y
 
 ### Step 4 - Configure MySQL Server Security, Create Database and User.
 
-- Connect to MySQL prompt:
+Connect to MySQL prompt on the mysql-server EC2 instance:
 
 ```
 sudo mysql
 ```
 
-- Then run the following ALTER USER command to change the root user’s authentication method to one that uses a password. The following example changes the authentication method to mysql_native_password:
+Then run the following ALTER USER command to change the root user’s authentication method to one that uses a password. The following example changes the authentication method to mysql_native_password to _habeeb_:
 
 ```
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'habeeb';
 ```
 
-- After making this change, exit the MySQL prompt:
+![MySQL-server-password](Images/Mysql-server-password.png)
+
+After making this change, exit the MySQL prompt:
 
 ```
 exit
 ```
 
-- log back into the mysql console using the root user, you will be prompted to input the password which is "password" in our case.
+Log back into the mysql console using the root user, you will be prompted to input the password which is "habeeb" in this case.
 
 ```
 sudo mysql -u root -p
 ```
 
-- Create a new database and user with privileges to access it. 
+![mysql-server-password-login](Images/mysql-server-password-login.png)
+
+
+Create a new database and user with privileges to access it. Below is a sample
 
 ```
 CREATE DATABASE test_db;
-
-CREATE USER 'Revelation'@'%' IDENTIFIED BY 'password';
-
-GRANT ALL PRIVILEGES ON test_db.* TO 'Revelation'@'%';
-
+```
+```
+CREATE USER 'HabeebOps'@'%' IDENTIFIED BY 'habeeb';
+```
+```
+GRANT ALL PRIVILEGES ON test_db.* TO 'HabeebOps'@'%';
+```
+```
 FLUSH PRIVILEGES;
-
+```
+```
 exit
 ```
+
+![mysql-server-db](Images/mysql-server-db.png)
 
 ### Step 5 - Configure MySQL server for Remote Access
 
