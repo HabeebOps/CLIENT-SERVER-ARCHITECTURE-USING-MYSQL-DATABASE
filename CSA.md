@@ -80,7 +80,7 @@ Verify the status of Mysql service:
 sudo systemctl status mysql
 ```
 
-![MySQL-server-status](Images/Mysql-server-status.png)
+![MySQL server-status](Images/MySQL-server-status.png)
 
 ### Step 3 - Install MySQL Client Software on the MySQL-client EC2 Instance
 
